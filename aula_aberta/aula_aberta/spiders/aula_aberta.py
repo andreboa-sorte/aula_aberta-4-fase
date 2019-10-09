@@ -53,21 +53,21 @@ class AulaAbertaSpider(scrapy.Spider):
              transfomar em "clicavel" para o robo)
             '''
     def startup(self,response):
-        nome_startup=response.xpath(// h2[ @class ='publ-header__name sb-size-4']).extract_first()
+        nome_startup=response.xpath('// h2[ @class ="publ-header__name sb-size-4"]').extract_first()
 
-        localização_startup = response.xpath(// *[@ class ="publ-header__location is-uppercase"]).extract_first()
+        localização_startup = response.xpath('// *[@ class ="publ-header__location is-uppercase"]').extract_first()
 
-        descracao = response.xpath(// *[@ class = "publ-header__description sb-size-8 has-text-weight-light"]).extract_first()
+        descracao = response.xpath('// *[@ class = "publ-header__description sb-size-8 has-text-weight-light"]').extract_first()
 
-        mercado = response.xpath(// div[1] / div[2] / section / article[1] / p).extract_first()
+        mercado = response.xpath('// div[1] / div[2] / section / article[1] / p').extract_first()
 
-        publico_alvo =response.xpath(// div[1] / div[2] / section / article[2] / p).extract_first()
+        publico_alvo =response.xpath('// div[1] / div[2] / section / article[2] / p').extract_first()
 
-        modelo_receita = response.xpath(// div[1] / div[2] / section / article[3] / p).extract_first()
+        modelo_receita = response.xpath('// div[1] / div[2] / section / article[3] / p').extract_first()
 
-        momento =response.xpath(// div[1] / div[2] / section / article[4] / p).extract_first()
+        momento =response.xpath('// div[1] / div[2] / section / article[4] / p').extract_first()
 
-        sobre =response.xpath(// app-card / div / p[2]).extract_first()
+        sobre =response.xpath('// app-card / div / p[2]').extract_first()
 
         yield{'nome_startup': nome_startup, 'localização_startup': localização_startup, 'descracao': descracao,
         'mercado': mercado, 'publico_alvo': publico_alvo, 'modelo_receita': modelo_receita,
