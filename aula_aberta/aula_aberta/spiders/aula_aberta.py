@@ -36,11 +36,42 @@ class AulaAbertaSpider(scrapy.Spider):
                   'de%20e%20Bem-estar&targets=all&phases=all&models=all&badges=all']
 
     def parse(self, response):
-        lista = response.xpath('//*[@class="search-body__item"]')
+        lista = response.xpath('//*[@class="search-body__item"]') #encontra a lista de startups
         # self.log(lista)
         for itemlista in lista:
-            url = itemlista.xpath('./a/@href').extract_first()
+            url = itemlista.xpath('./a/@href').extract_first() #pega os link de cada startup
             # self.log(url)
-            yield scrapy.Request(url=url, callback=self.parsedetalhe())
-    def parsedetalhe(self,response):
-        pass
+            yield scrapy.Request(response.urljoin(url=url, callback=self.startup()))
+            '''
+            o "yield" faz outra request para a pagina com o link tirado do for e manda para o "parsedetalhe" o response
+            como toda a função esta dentro do for, não precisa de uma lista ou algo assim, pois o mesmo link da varivel
+            é usado no "yield" na hora que a "url" tem ele
+            
+            (response.urljoin é usado para ajduar a entender q ele ta mandano um request para uma url e ajuda ela a
+             transfomar em "clicavel" para o robo)
+            '''
+    def startup(self,response):
+        nome_startup=response.xpath(// h2[ @class ='publ-header__name sb-size-4']).extract_first()
+
+        localização_startup = response.xpath(// *[@ class ="publ-header__location is-uppercase"]).extract_first()
+
+        descracao = response.xpath(// *[@ class = "publ-header__description sb-size-8 has-text-weight-light"]).extract_first()
+
+        mercado =response.xpath(// div[1] / div[2] / section / article[1] / p).extract_first()
+
+        publico_alvo =response.xpath(// div[1] / div[2] / section / article[2] / p).extract_first()
+
+        modelo_receita = response.xpath(// div[1] / div[2] / section / article[3] / p).extract_first()
+
+        momento =response.xpath(// div[1] / div[2] / section / article[4] / p).extract_first()
+
+        sobre =response.xpath(// app-card / div / p[2]).extract_first()
+
+        yield{'nome_startup': nome_startup, 'localização_startup': localização_startup, 'descracao': descracao,
+        'mercado': mercado, 'publico_alvo': publico_alvo, 'modelo_receita': modelo_receita,
+        'momento': momento, 'sobre': sobre, 'url': response.url}
+
+
+        '''
+        o yield ai ta retonando um json para vc
+        '''
