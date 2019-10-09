@@ -24,6 +24,8 @@ modelo de receita -> //div[1]/div[2]/section/article[3]/p
 momento -> //div[1]/div[2]/section/article[4]/p
 
 sobre -> //app-card/div/p[2]
+
+link maps da startup -> //div/div[2]/figure/img
 '''
 
 class AulaAbertaSpider(scrapy.Spider):
@@ -57,7 +59,7 @@ class AulaAbertaSpider(scrapy.Spider):
 
         descracao = response.xpath(// *[@ class = "publ-header__description sb-size-8 has-text-weight-light"]).extract_first()
 
-        mercado =response.xpath(// div[1] / div[2] / section / article[1] / p).extract_first()
+        mercado = response.xpath(// div[1] / div[2] / section / article[1] / p).extract_first()
 
         publico_alvo =response.xpath(// div[1] / div[2] / section / article[2] / p).extract_first()
 
